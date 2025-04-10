@@ -8,9 +8,11 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 import pandas as pd
 import warnings
 warnings.filterwarnings("ignore")
+import dagshub
+dagshub.init(repo_owner='yashpotdar-py', repo_name='mlflow_exp_dagshub', mlflow=True)
 
 mlflow.set_experiment("water_exp")
-mlflow.set_tracking_uri("http://127.0.0.1:5000")
+mlflow.set_tracking_uri("https://dagshub.com/yashpotdar-py/mlflow_exp_dagshub.mlflow")
 data = pd.read_csv('data/water_potability.csv')
 
 train_data, test_data = train_test_split(data, test_size=0.20, random_state=42)
