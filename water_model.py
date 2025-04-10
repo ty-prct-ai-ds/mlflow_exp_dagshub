@@ -1,3 +1,4 @@
+import dagshub
 import seaborn as sns
 import matplotlib.pyplot as plt
 import mlflow
@@ -8,12 +9,14 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 import pandas as pd
 import warnings
 warnings.filterwarnings("ignore")
-import dagshub
-dagshub.init(repo_owner='yashpotdar-py', repo_name='mlflow_exp_dagshub', mlflow=True)
+dagshub.init(repo_owner='yashpotdar-py',
+             repo_name='mlflow_exp_dagshub', mlflow=True)
 
 mlflow.set_experiment("water_exp")
-mlflow.set_tracking_uri("https://dagshub.com/yashpotdar-py/mlflow_exp_dagshub.mlflow")
-data = pd.read_csv('data/water_potability.csv')
+mlflow.set_tracking_uri(
+    "https://dagshub.com/yashpotdar-py/mlflow_exp_dagshub.mlflow")
+data = pd.read_csv(
+    'https://raw.githubusercontent.com/ty-prct-ai-ds/water_exp/refs/heads/main/data/water_potability.csv')
 
 train_data, test_data = train_test_split(data, test_size=0.20, random_state=42)
 
@@ -59,7 +62,7 @@ with mlflow.start_run():
     plt.ylabel('Actual')
     plt.savefig('confusion_matrix.png')
     mlflow.log_artifact('confusion_matrix.png')
-    
+
     mlflow.log_metric("Accuracy", accuracy)
     mlflow.log_metric("Precision", precision)
     mlflow.log_metric("Recall", recall)
