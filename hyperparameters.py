@@ -27,8 +27,12 @@ def fill_missing_with_median(df):
 train_processed_data = fill_missing_with_median(train_data)
 test_processed_data = fill_missing_with_median(test_data)
 
-X_train = train_processed_data.iloc[:, :-1].values
-y_train = train_processed_data.iloc[:, -1].values
+# X_train = train_processed_data.iloc[:, :-1].values
+# y_train = train_processed_data.iloc[:, -1].values
+
+X_train = train_processed_data.drop(columns=['Potability'],axis=1)
+y_train = train_processed_data['Potability']
+
 
 rf = RandomForestClassifier(random_state=42)
 param_dist = {
@@ -62,9 +66,13 @@ with mlflow.start_run(run_name="Random Forest Tuning") as parent_run:
 
     pickle.dump(best_rf, open("model.pkl", "wb"))
 
-    X_test = test_processed_data.iloc[:, :-1].values
-    y_test = test_processed_data.iloc[:, -1].values
+    # X_test = test_processed_data.iloc[:, :-1].values
+    # y_test = test_processed_data.iloc[:, -1].values
 
+    X_test = test_processed_data.drop(columns=['Potability'],axis=1)
+    y_test = test_processed_data['Potability']
+    
+    
     model = pickle.load(open('model.pkl', "rb"))
 
     y_pred = model.predict(X_test)
